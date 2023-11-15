@@ -1,0 +1,37 @@
+.panelBackgroundColor{
+    background-color: var(--fluroscent-blue);
+}
+
+.panelBackgroundSetup{
+    background-color: var(--sweet-brown);
+}
+.ArFontStyle{
+    font-family: Cairo;
+}
+
+.bg-btn-print-labels{
+    background-color: var(--light-sea-green);
+
+    &.btn {
+        &.btn-primary:hover, &.btn-primary:focus, &.btn-primary:active {
+            background-color: #2b9b97 !important; 
+        }
+    }
+}
+
+.bg-btn-print-labels-Setup{
+    background-color: var(--english-vermillion);
+
+    &.btn {
+        &.btn-primary:hover, &.btn-primary:focus, &.btn-primary:active {
+            background-color: var(--setup-btn-hover) !important; 
+        }
+    }
+}
+.labelHeader{
+    color: #000 !important;
+}
+
+.labelHeaderSetup{
+    color: #fff !important;
+}

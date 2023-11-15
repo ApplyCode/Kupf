@@ -1,0 +1,40 @@
+<input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" />
+
+<table *ngIf="data.length">
+  <thead>
+    <tr>
+      <th>AgreedSubmt</th>
+      <th>AmountReceivedTillNow</th>
+      <th>LastSalary</th>
+      <th>TerminationDate</th>
+      <th>Occupation</th>
+      <th>EmpGender</th>
+      <th>EmpMobile</th>
+      <th>EmpCivilID</th>
+      <th>EmpBirthday</th>
+      <th>ContractType</th>
+      <th>EmpEmail</th>
+      <th>EmpPaciNo</th>
+      <th>EmpNationality</th>
+      <th>NextToKin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let Employee of data">
+      <td>{{ Employee.AgreedSubmt }}</td>
+      <td>{{ Employee.AmountReceivedTillNow }}</td>
+      <td>{{ Employee.LastSalary }}</td>
+      <td>{{ Employee.TerminationDate }}</td>
+      <td>{{ Employee.Occupation }}</td>
+      <td>{{ Employee.EmpGender }}</td>
+      <td>{{ Employee.EmpMobile }}</td>
+      <td>{{ Employee.EmpCivilID }}</td>
+      <td>{{ Employee.EmpBirthday }}</td>
+      <td>{{ Employee.ContractType }}</td>
+      <td>{{ Employee.EmpEmail }}</td>
+      <td>{{ Employee.EmpPaciNo }}</td>
+      <td>{{ Employee.EmpNationality }}</td>
+      <td>{{ Employee.NextToKin }}</td>
+    </tr>
+  </tbody>
+</table>

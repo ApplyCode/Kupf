@@ -1,0 +1,205 @@
+<!-- TO GET FORM ID AND SETTINGUP LANGAUGE. -->
+<input type="hidden" #ImportEmployeeMaster name="ImportEmployeeMaster" value="ImportEmployeeMaster">
+<div class="card mb-5 mb-xl-10">
+    <!--begin::Card header-->
+    <div class="card-header card-header-stretch pb-0 header_bg">
+        <!--begin::Title-->
+        <div class="card-title">
+            <h3 class="m-0 text-white ArFontStyle" lang="AR-SA">{{lang == 'en' ?
+                formBodyLabels[0].hdrImportEmployeeMaster.title :
+                formBodyLabels[0].hdrImportEmployeeMaster.arabicTitle}}</h3>
+        </div>
+        <!--end::Title-->
+    </div>
+    <!--end::Card header-->
+    <!--begin::Tab content-->
+    <div id="kt_billing_payment_tab_content" class="card-body tab-content">
+        <!--begin::Tab panel-->
+        <div id="kt_billing_creditcard" class="tab-pane fade show active" role="tabpanel">
+            <!--begin::Title-->
+            <!-- <h3 class="mb-5">Personal Information</h3> -->
+            <!--end::Title-->
+            <!--begin::Row-->
+            <div class="row gx-9 gy-6">
+                <form autocomplete="off">
+                    <div class="row mb-4">
+                        <div class="col-lg-9 fv-row">
+                            <div class="mt-4">
+                                <label for="formFile" class="form-label ArFontStyle" lang="AR-SA">{{lang == 'en' ?
+                                    formBodyLabels[0].lblUploaderType.title :
+                                    formBodyLabels[0].lblUploaderType.arabicTitle}}</label>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <ng-select (change)="getSelectedValue($event)">
+                                            <ng-option *ngFor="let sampleFileType of sampleFileTypes"
+                                                [value]="sampleFileType.shortname">{{lang == 'en' ?
+                                                sampleFileType.refnamE1 : sampleFileType.refnamE2}}</ng-option>
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <button type="button" class="btn btn-secondary float-right" lang="AR-SA"
+                                            (click)="downloadFile()">{{lang == 'en' ?
+                                            formBodyLabels[0].lblDownloadUploaderSample.title :
+                                            formBodyLabels[0].lblDownloadUploaderSample.arabicTitle}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6 fv-row">
+                            <div class="mt-4">
+                                <label for="formFile" class="form-label ArFontStyle" lang="AR-SA">{{lang == 'en' ?
+                                    formBodyLabels[0].lblSelectFile.title :
+                                    formBodyLabels[0].lblSelectFile.arabicTitle}}</label>
+                                <input class="form-control" type="file" id="formFile"
+                                    (change)="onFileChange($event.target.files)">
+                                <span><small class="text-danger ArFontStyle" lang="AR-SA"></small></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 fv-row">
+                            <label class="col-lg-6 col-form-label fw-bold fs-6 ArFontStyle" lang="AR-SA">{{lang == 'en'
+                                ? formBodyLabels[0].lblPeriodCode.title :
+                                formBodyLabels[0].lblPeriodCode.arabicTitle}}</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                                <input type="text" class="form-control" bsDatepicker [(ngModel)]="periodCode"
+                                    [ngModelOptions]="{standalone: true}" [bsConfig]="{ dateInputFormat: 'YYYY-MM' }"
+                                    disabled (onShown)="onOpenCalendar($event)" />
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <!--end::Row-->
+        </div>
+
+    </div>
+    <!--end::Tab content-->
+    <div class="card-footer d-flex justify-content-end py-6 px-9 "
+        *ngFor="let bodyLabel of formBodyLabels; let i = index">
+        <button type="button" class="btn btn-primary float-right ArFontStyle btn-bg" lang="AR-SA"
+            (click)="uploadEmployeeExcelFile()">{{lang == 'en' ? formBodyLabels[0].btnDataImport.title :
+            formBodyLabels[0].btnDataImport.arabicTitle}}</button>
+    </div>
+</div>
+
+<div class="card mb-5 mb-xl-8" *ngIf="isDisplay">
+    <!--begin::Header-->
+    <div class="card-header border-0 pt-5 panel3bgColor">
+        <div class="card-toolbar">
+            <h3 class="text-white ArFontStyle" lang="AR-SA">{{lang == 'en' ? formBodyLabels[0].btnDataImport.title :
+                formBodyLabels[0].btnDataImport.arabicTitle}}</h3>
+        </div>
+        <div class="d-flex justify-content-between gap-4">
+            <h3 class="card-title align-items-start flex-column">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-primary ArFontStyle" lang="AR-SA"
+                        (click)="cancelImportGrid()">
+                        {{lang == 'en' ? formBodyLabels[0].btnCancel.title :
+                        formBodyLabels[0].btnCancel.arabicTitle}}</button>
+                    <button type="button" class="btn btn-primary ArFontStyle mx-3" lang="AR-SA"
+                        [class]="isEdit ? 'isDisabled' : '' " (click)="draftImportGrid()">
+                        {{lang == 'en' ? formBodyLabels[0].btnDraft.title :
+                        formBodyLabels[0].btnDraft.arabicTitle}}</button>
+                    <button type="button" class="btn btn-primary ArFontStyle" lang="AR-SA"
+                        [class]="isEdit ? 'isDisabled' : '' " (click)="submitImportGrid()">{{lang == 'en' ?
+                        formBodyLabels[0].lblSubmitButton.title :
+                        formBodyLabels[0].lblSubmitButton.arabicTitle}}</button>
+                </div>
+            </h3>
+        </div>
+        <!-- <h3 class="card-title align-items-start flex-column viewEmployee">
+            <a class="btn btn-primary w-100 ArFontStyle viewEmployeeBtn" [class]="isEdit ? 'isDisabled' : '' " (click)="submitImportGrid()"
+                lang="AR-SA">
+                {{lang == 'en' ? formBodyLabels[0].lblSubmitButton.title :
+                formBodyLabels[0].lblSubmitButton.arabicTitle}}
+            </a>
+        </h3> -->
+    </div>
+    <div class="card-body py-3">
+        <div class="d-flex my-4">            
+            <mat-radio-group aria-label="Select an option">
+                <mat-radio-button value="1" color="primary" class="ArFontStyle" (change)="radioChange($event)">{{lang == 'en' ?
+                    formBodyLabels[0].lblRecordNotMatched.title :
+                    formBodyLabels[0].lblRecordNotMatched.arabicTitle}}</mat-radio-button>
+                <mat-radio-button value="2" color="primary" class="ArFontStyle mx-3" (change)="radioChange($event)">{{lang == 'en' ?
+                    formBodyLabels[0].lblExceptionData.title :
+                    formBodyLabels[0].lblExceptionData.arabicTitle}}</mat-radio-button>
+                <mat-radio-button value="0" color="primary" class="ArFontStyle" (change)="radioChange($event)">{{lang == 'en' ?
+                    formBodyLabels[0].lblShowAll.title :
+                    formBodyLabels[0].lblShowAll.arabicTitle}}</mat-radio-button>
+              </mat-radio-group>
+        </div>
+        <div class="row mb-4">
+            <div class="table-container">
+                <table mat-table class="w-100" [dataSource]="importData" matSort>
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef class="text-white">{{lang == 'en' ?
+                            formBodyLabels[0].lblEmployeeName.title : formBodyLabels[0].lblEmployeeName.arabicTitle}}
+                        </th>
+                        <td mat-cell *matCellDef="let item" class="ArFontStyle w-10">
+                            {{lang == "en" ? item.englishName : item.arabicName}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="employeeId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-white">{{lang == 'en' ?
+                            formBodyLabels[0].lblEmployeeId.title : formBodyLabels[0].lblEmployeeId.arabicTitle}}</th>
+                        <td mat-cell *matCellDef="let item" class="ArFontStyle w-10">{{item.employeeId }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="periodCode" class="w-30">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-white">{{lang == 'en' ?
+                            formBodyLabels[0].lblPeriodCode.title : formBodyLabels[0].lblPeriodCode.arabicTitle}}</th>
+                        <td mat-cell *matCellDef="let item" class="ArFontStyle w-10">{{item.periodCode}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="reference" class="w-30">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-white">{{lang == 'en' ?
+                            formBodyLabels[0].lblRefrence.title : formBodyLabels[0].lblRefrence.arabicTitle}}</th>
+                        <td mat-cell *matCellDef="let item" class="ArFontStyle w-10">{{item.reference}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="previous_Amount" class="w-30">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-white">{{lang == 'en' ?
+                            formBodyLabels[0].lblPreviousAmount.title :
+                            formBodyLabels[0].lblPreviousAmount.arabicTitle}}</th>
+                        <td mat-cell *matCellDef="let item" class="ArFontStyle w-10">{{item.previous_Amount}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="amount" class="w-30">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-white">{{lang == 'en' ?
+                            formBodyLabels[0].lblAmount.title : formBodyLabels[0].lblAmount.arabicTitle}}</th>
+                        <td mat-cell *matCellDef="let item" class="ArFontStyle w-10">
+                            <div *ngIf="isEdit && item.id==editedId">
+                                <small><span class="text-danger"
+                                        *ngIf="item.amount==null || item.amount==undefined">Required
+                                        field</span></small>
+                                <input type="number" class="form-control form-control-solid w-80"
+                                    [(ngModel)]="item.amount" name="title" #title="ngModel" required />
+                            </div>
+                            <div *ngIf="!isEdit || item.id!=editedId">
+                                {{item.amount}}
+                            </div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="actions" class="w-30">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-white">{{lang == 'en' ?
+                            formBodyLabels[0].lblAction.title : formBodyLabels[0].lblAction.arabicTitle}}</th>
+                        <td mat-cell *matCellDef="let item" class="ArFontStyle w-10">
+                            <a href="javascript:void(0)" *ngIf="!isEdit || editedId!=item.id"
+                                [class]="!isEdit ? '' : 'isDisabled'" (click)="editRow(true, item.id)"
+                                class="bi bi-pencil-square fs-2"></a>
+                            <a href="javascript:void(0)" *ngIf="isEdit && editedId==item.id"
+                                [class]="item.amount>=0 ? '' : 'isDisabled'" (click)="saveRow(false, item.id)"
+                                class="bi bi-file-earmark-text text-success fs-2"></a>
+
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky:true" class="importTableHeader"></tr>
+                    <tr mat-row *matRowDef="let item; columns: columnsToDisplay"
+                        [class]="item.previous_Amount==item.amount ? '' : 'highlightRow'"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
